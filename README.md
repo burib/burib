@@ -10,6 +10,8 @@
   <img align="left" alt="Balázs's stackoverflow" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/stackoverflow.svg" />
 </a>
 
+<br>
+ 
 #### Certifications:
 <a href="https://www.youracclaim.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d/linked_in" target="_blank"><img src="https://user-images.githubusercontent.com/956227/89123714-bb121800-d4d1-11ea-8475-ac6f19dfb4f6.png" width="150" height="150" /></a>
 
