@@ -1,5 +1,8 @@
 ### Hey 👋, I'm Balázs
 
+Software Engineer with passion for Frontend and Full Stack AWS Serverless Architecture & Development.  
+Available for Hire.
+
 <a href="https://www.linkedin.com/in/balazsburi/" target="_blank">
   <img align="left" alt="Balázs's LinkdeIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />
 </a>
