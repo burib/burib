@@ -23,6 +23,15 @@
 ### Time Spent Recently with:
 
 <!--START_SECTION:waka-->
+```text
+Week: 25 July, 2020 - 01 August, 2020
+
+Terraform    1 hr 56 mins    ██████████████░░░░░░░░░░░   58.77 % 
+YAML         1 hr 6 mins     ████████░░░░░░░░░░░░░░░░░   33.32 % 
+JavaScript   9 mins          █░░░░░░░░░░░░░░░░░░░░░░░░   04.55 % 
+Other        2 mins          ░░░░░░░░░░░░░░░░░░░░░░░░░   01.47 % 
+Markdown     1 min           ░░░░░░░░░░░░░░░░░░░░░░░░░   00.76 %
+```
 <!--END_SECTION:waka-->
 <!--
 **burib/burib** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
