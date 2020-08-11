@@ -22,7 +22,7 @@ Available for Hire.
 
 <!--START_SECTION:waka-->
 ```text
-Week: 02 August, 2020 - 09 August, 2020
+Week: 03 August, 2020 - 10 August, 2020
 
 Terraform    1 hr 56 mins    ██████████████░░░░░░░░░░░   58.77 % 
 YAML         1 hr 6 mins     ████████░░░░░░░░░░░░░░░░░   33.32 % 
