@@ -21,7 +21,7 @@ Software Engineer with passion for Frontend and Full Stack AWS Serverless Archit
 
 <!--START_SECTION:waka-->
 ```text
-Week: 18 August, 2020 - 25 August, 2020
+Week: 19 August, 2020 - 26 August, 2020
 
 Terraform    1 hr 56 mins    ██████████████▓░░░░░░░░░░   58.77 % 
 YAML         1 hr 6 mins     ████████▒░░░░░░░░░░░░░░░░   33.32 % 
