@@ -21,13 +21,13 @@ Software Engineer with passion for Frontend and Full Stack AWS Serverless Archit
 
 <!--START_SECTION:waka-->
 ```text
-Week: 22 October, 2020 - 29 October, 2020
+Week: 23 October, 2020 - 30 October, 2020
 
-TypeScript   1 hr 54 mins    █████████████▓░░░░░░░░░░░   55.06 % 
-Terraform    42 mins         █████░░░░░░░░░░░░░░░░░░░░   20.52 % 
-JSON         26 mins         ███▒░░░░░░░░░░░░░░░░░░░░░   12.68 % 
-YAML         20 mins         ██▓░░░░░░░░░░░░░░░░░░░░░░   10.06 % 
-Bash         1 min           ▒░░░░░░░░░░░░░░░░░░░░░░░░   00.92 % 
+TypeScript   8 hrs 12 mins   ████████████▓░░░░░░░░░░░░   51.23 % 
+Terraform    3 hrs 4 mins    ████▓░░░░░░░░░░░░░░░░░░░░   19.23 % 
+YAML         2 hrs 14 mins   ███▒░░░░░░░░░░░░░░░░░░░░░   13.97 % 
+Bash         57 mins         █▒░░░░░░░░░░░░░░░░░░░░░░░   05.94 % 
+XML          38 mins         █░░░░░░░░░░░░░░░░░░░░░░░░   03.97 % 
 ```
 <!--END_SECTION:waka-->
 
