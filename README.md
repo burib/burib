@@ -21,7 +21,7 @@ Software Engineer with passion for Frontend and Full Stack AWS Serverless Archit
 
 <!--START_SECTION:waka-->
 ```text
-Week: 04 November, 2020 - 11 November, 2020
+Week: 05 November, 2020 - 12 November, 2020
 
 TypeScript   8 hrs 12 mins   ████████████▓░░░░░░░░░░░░   51.23 % 
 Terraform    3 hrs 4 mins    ████▓░░░░░░░░░░░░░░░░░░░░   19.23 % 
