@@ -15,7 +15,12 @@ Software Engineer with passion for Frontend and Full Stack AWS Serverless Archit
 <br>
  
 #### Certifications:
-<a href="https://www.youracclaim.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d/linked_in" target="_blank"><img src="https://user-images.githubusercontent.com/956227/89123714-bb121800-d4d1-11ea-8475-ac6f19dfb4f6.png" width="150" height="150" /></a>
+<a href="https://www.youracclaim.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d?source=github_profile" target="_blank"><img src="https://user-images.githubusercontent.com/956227/89123714-bb121800-d4d1-11ea-8475-ac6f19dfb4f6.png" width="150" height="150" /></a>
+
+<a href="https://www.youracclaim.com/badges/9637581d-823c-44c5-b32c-cc5868fec2ac?source=github_profile" target="_blank"><img src="https://user-images.githubusercontent.com/956227/99945397-dc468f00-2d74-11eb-8c13-2753c7898c58.png" width="150" height="150" /></a>
+
+
+
 
 ### Time Spent Recently with:
 
