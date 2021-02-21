@@ -26,13 +26,13 @@ Software Engineer with passion for Frontend and Full Stack AWS Serverless Archit
 
 <!--START_SECTION:waka-->
 ```text
-Week: 12 February, 2021 - 19 February, 2021
+Week: 13 February, 2021 - 20 February, 2021
 
-TypeScript   8 hrs 12 mins   ████████████▓░░░░░░░░░░░░   51.23 % 
-Terraform    3 hrs 4 mins    ████▓░░░░░░░░░░░░░░░░░░░░   19.23 % 
-YAML         2 hrs 14 mins   ███▒░░░░░░░░░░░░░░░░░░░░░   13.97 % 
-Bash         57 mins         █▒░░░░░░░░░░░░░░░░░░░░░░░   05.94 % 
-XML          38 mins         █░░░░░░░░░░░░░░░░░░░░░░░░   03.97 % 
+Terraform    1 hr 56 mins    ██████████████▓░░░░░░░░░░   58.77 % 
+YAML         1 hr 6 mins     ████████▒░░░░░░░░░░░░░░░░   33.32 % 
+JavaScript   9 mins          █░░░░░░░░░░░░░░░░░░░░░░░░   04.55 % 
+Other        2 mins          ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.47 % 
+Markdown     1 min           ▒░░░░░░░░░░░░░░░░░░░░░░░░   00.76 % 
 ```
 <!--END_SECTION:waka-->
 
