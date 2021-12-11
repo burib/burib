@@ -26,7 +26,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 03 December, 2021 - 09 December, 2021
+Week: 04 December, 2021 - 10 December, 2021
 
 Go           6 hrs 55 mins   ██████████▓░░░░░░░░░░░░░░   42.69 % 
 Terraform    2 hrs 42 mins   ████░░░░░░░░░░░░░░░░░░░░░   16.66 % 
