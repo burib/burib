@@ -26,13 +26,13 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 14 December, 2021 - 20 December, 2021
+Week: 15 December, 2021 - 21 December, 2021
 
-YAML         13 hrs          █████████████░░░░░░░░░░░░   52.06 % 
-Go           6 hrs 14 mins   ██████▒░░░░░░░░░░░░░░░░░░   24.96 % 
-TypeScript   2 hrs 6 mins    ██░░░░░░░░░░░░░░░░░░░░░░░   08.42 % 
-HTML         53 mins         █░░░░░░░░░░░░░░░░░░░░░░░░   03.54 % 
-Terraform    46 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   03.11 % 
+YAML        12 hrs 17 mins  █████████████████░░░░░░░░   68.65 % 
+Go          3 hrs 11 mins   ████▒░░░░░░░░░░░░░░░░░░░░   17.88 % 
+Terraform   25 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.40 % 
+HTML        25 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.35 % 
+JSON        19 mins         ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.80 % 
 ```
 <!--END_SECTION:waka-->
 
