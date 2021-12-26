@@ -26,10 +26,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 18 December, 2021 - 24 December, 2021
-
-YAML         5 hrs 11 mins   ████████████████████████▓   99.14 % 
-Text         2 mins          ▒░░░░░░░░░░░░░░░░░░░░░░░░   00.79 % 
+No Activity tracked this Week
 ```
 <!--END_SECTION:waka-->
 
