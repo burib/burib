@@ -26,13 +26,13 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 12 January, 2022 - 18 January, 2022
+Week: 13 January, 2022 - 19 January, 2022
 
-Go             5 hrs 52 mins   █████████░░░░░░░░░░░░░░░░   36.34 % 
-Terraform      2 hrs 57 mins   ████▓░░░░░░░░░░░░░░░░░░░░   18.31 % 
-Bash           2 hrs 3 mins    ███▒░░░░░░░░░░░░░░░░░░░░░   12.74 % 
-Shell Script   1 hr 20 mins    ██░░░░░░░░░░░░░░░░░░░░░░░   08.32 % 
-YAML           1 hr 20 mins    ██░░░░░░░░░░░░░░░░░░░░░░░   08.29 % 
+Terraform      5 hrs 22 mins   ████████▓░░░░░░░░░░░░░░░░   34.60 % 
+Go             3 hrs 20 mins   █████▒░░░░░░░░░░░░░░░░░░░   21.49 % 
+YAML           2 hrs 4 mins    ███▒░░░░░░░░░░░░░░░░░░░░░   13.35 % 
+Bash           2 hrs 3 mins    ███▒░░░░░░░░░░░░░░░░░░░░░   13.31 % 
+Shell Script   1 hr 20 mins    ██▒░░░░░░░░░░░░░░░░░░░░░░   08.69 % 
 ```
 <!--END_SECTION:waka-->
 
