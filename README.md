@@ -26,7 +26,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 17 January, 2022 - 23 January, 2022
+Week: 18 January, 2022 - 24 January, 2022
 
 Terraform      8 hrs 39 mins   ████████████████▓░░░░░░░░   67.03 % 
 Markdown       1 hr 40 mins    ███▒░░░░░░░░░░░░░░░░░░░░░   13.02 % 
