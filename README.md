@@ -26,7 +26,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 24 January, 2022 - 30 January, 2022
+Week: 25 January, 2022 - 31 January, 2022
 
 Python     4 hrs 45 mins   ████▒░░░░░░░░░░░░░░░░░░░░   17.50 % 
 textmate   4 hrs 42 mins   ████▒░░░░░░░░░░░░░░░░░░░░   17.35 % 
