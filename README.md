@@ -26,7 +26,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 
 <!--START_SECTION:waka-->
 ```text
-Week: 06 February, 2022 - 12 February, 2022
+Week: 07 February, 2022 - 13 February, 2022
 
 Python      11 hrs 34 mins  ████████▒░░░░░░░░░░░░░░░░   33.98 % 
 YAML        8 hrs 2 mins    ██████░░░░░░░░░░░░░░░░░░░   23.61 % 
