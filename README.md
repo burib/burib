@@ -3,13 +3,13 @@
 Software Engineer with passion for Full Stack AWS Serverless Architecture & Development & DevOps.
 
 <a href="https://www.linkedin.com/in/balazsburi/" target="_blank">
-  <img align="left" alt="Balázs's LinkdeIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />
+  <img align="left" alt="Balázs's LinkdeIn" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/linkedin.svg" />
 </a>
 <a href="https://twitter.com/BuriB/" target="_blank">
-  <img align="left" alt="Balázs's Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />
+  <img align="left" alt="Balázs's Instagram" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/twitter.svg" />
 </a>
 <a href="https://stackoverflow.com/users/1720437/burib" target="_blank">
-  <img align="left" alt="Balázs's stackoverflow" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/stackoverflow.svg" />
+  <img align="left" alt="Balázs's stackoverflow" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/stackoverflow.svg" />
 </a>
 
 <br>
