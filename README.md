@@ -3,16 +3,16 @@
 Software Engineer with passion for Full Stack AWS Serverless Architecture & Development & DevOps.
 
 <a href="https://www.linkedin.com/in/balazsburi/" target="_blank">
-  <img align="left" alt="Balázs's LinkdeIn" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/linkedin.svg" />
+  <img align="left" alt="Balázs's LinkdeIn" width="32px" src="https://raw.githubusercontent.com/burib/burib/master/icons/linkedin.svg" />
 </a>
 <a href="https://twitter.com/BuriB/" target="_blank">
-  <img align="left" alt="Balázs's Instagram" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/twitter.svg" />
+  <img align="left" alt="Balázs's Instagram" width="32px" src="https://raw.githubusercontent.com/burib/burib/master/icons/twitter.svg" />
 </a>
 <a href="https://stackoverflow.com/users/1720437/burib" target="_blank">
-  <img align="left" alt="Balázs's stackoverflow" width="22px" src="https://raw.githubusercontent.com/burib/burib/master/icons/stackoverflow.svg" />
+  <img align="left" alt="Balázs's stackoverflow" width="32px" src="https://raw.githubusercontent.com/burib/burib/master/icons/stackoverflow.svg" />
 </a>
 
-<br>
+<br><br>
  
 #### Certifications:
 <a href="https://www.credly.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145574196-3b0bdd34-763e-4f97-b6ab-45c6dcd627a1.png" width="150" height="150" align="left" /></a>
