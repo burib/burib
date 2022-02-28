@@ -25,15 +25,18 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 ### Time Spent Recently with:
 
 <!--START_SECTION:waka-->
-```text
-From: 17 February, 2022 - To: 24 February, 2022
 
-Terraform   6 hrs 34 mins   ████████▓░░░░░░░░░░░░░░░░   35.01 % 
-YAML        3 hrs 36 mins   ████▓░░░░░░░░░░░░░░░░░░░░   19.22 % 
-Python      2 hrs 58 mins   ████░░░░░░░░░░░░░░░░░░░░░   15.87 % 
-JSON        2 hrs 9 mins    ███░░░░░░░░░░░░░░░░░░░░░░   11.46 % 
-Bash        1 hr 24 mins    ██░░░░░░░░░░░░░░░░░░░░░░░   07.53 % 
+```text
+From: 20 February 2022 - To: 27 February 2022
+
+Terraform        7 hrs 57 mins   ████████░░░░░░░░░░░░░░░░░   32.32 %
+Python           7 hrs 5 mins    ███████▒░░░░░░░░░░░░░░░░░   28.79 %
+YAML             3 hrs 28 mins   ███▓░░░░░░░░░░░░░░░░░░░░░   14.11 %
+JSON             2 hrs 20 mins   ██▒░░░░░░░░░░░░░░░░░░░░░░   09.54 %
+Bash             1 hr 24 mins    █▒░░░░░░░░░░░░░░░░░░░░░░░   05.74 %
+Shell Script     41 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.79 %
 ```
+
 <!--END_SECTION:waka-->
 
 <br /><br />
