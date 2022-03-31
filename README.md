@@ -15,9 +15,11 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <br><br>
  
 #### Certifications:
-<a href="https://www.credly.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145574196-3b0bdd34-763e-4f97-b6ab-45c6dcd627a1.png" width="150" height="150" align="left" /></a>
-<a href="https://www.credly.com/badges/9637581d-823c-44c5-b32c-cc5868fec2ac" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145574296-5f73ee1f-f259-4640-8aa6-8532335ab403.png" width="150" height="150"  /></a>
-<a href="https://www.credly.com/badges/83f20920-eb6e-4f87-8098-8db63e56f583" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145573702-51949999-ab51-4979-ac29-de78bef82843.png" width="150" height="150"  /></a>
+<a href="https://www.credly.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d" target="_blank">
+  <img src="https://user-images.githubusercontent.com/956227/161031223-14eae8ed-2381-42cf-9bf2-0ec14581a5ea.png" width="150" height="150" align="left" alt="AWS Solutions Architect Professional"/></a>   
+<a href="https://www.credly.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145574196-3b0bdd34-763e-4f97-b6ab-45c6dcd627a1.png" width="150" height="150" align="left" alt="AWS Solutions Architect Associate"/></a>
+<a href="https://www.credly.com/badges/9637581d-823c-44c5-b32c-cc5868fec2ac" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145574296-5f73ee1f-f259-4640-8aa6-8532335ab403.png" width="150" height="150" alt="AWS Developer Associate" /></a>
+<a href="https://www.credly.com/badges/83f20920-eb6e-4f87-8098-8db63e56f583" target="_blank"><img src="https://user-images.githubusercontent.com/956227/145573702-51949999-ab51-4979-ac29-de78bef82843.png" width="150" height="150" alt="AWS SysOps Administrator" /></a>
 
 
 
