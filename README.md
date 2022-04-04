@@ -29,7 +29,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 26 March 2022 - To: 02 April 2022
+From: 27 March 2022 - To: 03 April 2022
 
 Terraform        3 hrs 24 mins   ██████▒░░░░░░░░░░░░░░░░░░   24.81 %
 Python           2 hrs 24 mins   ████▒░░░░░░░░░░░░░░░░░░░░   17.57 %
