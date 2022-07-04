@@ -30,7 +30,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 25 June 2022 - To: 02 July 2022
+From: 26 June 2022 - To: 03 July 2022
 
 Python           5 hrs 28 mins   ███████▒░░░░░░░░░░░░░░░░░   29.17 %
 YAML             3 hrs 47 mins   █████░░░░░░░░░░░░░░░░░░░░   20.18 %
