@@ -30,7 +30,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 19 August 2022 - To: 26 August 2022
+From: 20 August 2022 - To: 27 August 2022
 
 TypeScript       6 hrs 13 mins   ████████████▒░░░░░░░░░░░░   49.41 %
 Python           3 hrs 18 mins   ██████▓░░░░░░░░░░░░░░░░░░   26.29 %
