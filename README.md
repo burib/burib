@@ -30,7 +30,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 16 September 2022 - To: 23 September 2022
+From: 17 September 2022 - To: 24 September 2022
 
 YAML             4 hrs 50 mins   ██████████▒░░░░░░░░░░░░░░   41.57 %
 Docker           2 hrs 25 mins   █████▒░░░░░░░░░░░░░░░░░░░   20.76 %
