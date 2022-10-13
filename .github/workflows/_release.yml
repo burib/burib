@@ -1,0 +1,11 @@
+name: "Release"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+jobs:
+  release_semver:
+    uses: ./.github/workflows/release_semver.yml

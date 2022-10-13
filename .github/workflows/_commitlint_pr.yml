@@ -1,0 +1,13 @@
+name: 'Conventional Commits Check. https://www.conventionalcommits.org/'
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  validate_commit_messages:
+    uses: ./.github/workflows/commitlint_pr.yml
