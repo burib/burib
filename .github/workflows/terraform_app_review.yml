@@ -1,0 +1,266 @@
+name: Terraform App Review
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        description: 'Where to run, usually ubuntu-latest or self-hosted'
+        default: 'ubuntu-latest'
+        required: false
+        type: string
+
+      environment: # dev, staging, prod
+        description: 'Environment to deploy to'
+        required: false
+        default: ""
+        type: string
+
+      aws_region:
+        description: 'AWS Region to deploy to'
+        default: 'us-east-1'
+        required: false
+        type: string
+
+      aws_account_id:
+        description: 'AWS Account to deploy to'
+        required: false
+        default: ""
+        type: string
+
+      role_to_assume:
+        description: 'What AWS role to assume'
+        required: false
+        default: ""
+        type: string
+
+      working_directory:
+        description: 'Working directory containing terraform code to run'
+        required: false
+        default: ""
+        type: string
+
+      tf_version:
+        description: 'Terraform version to run'
+        default: '1.3.0'
+        required: false
+        type: string
+
+      tflint_version:
+        description: 'TFLint version to run'
+        default: 'latest'
+        required: false
+        type: string
+
+      tflint_config_repo:
+        description: 'Public Repo Where TFLint Config can be found'
+        default: 'burib/workflows'
+        required: false
+        type: string
+
+      tflint_config_path:
+        description: 'Path inside the Public Repo Where TFLint Config can be found'
+        default: 'configs/aws.tflint.hcl'
+        required: false
+        type: string
+
+      checkov_check:
+        description: 'Comma-separated list of Checkov tests to perform'
+        default: ''
+        required: false
+        type: string
+
+      checkov_skip_check:
+        description: 'Comma-separated list of Checkov tests to skip'
+        default: ''
+        required: false
+        type: string
+    secrets:
+      TFE_TOKEN:
+        required: false
+
+jobs:
+  format:
+    name: Format
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Format Terraform Code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -recursive
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.1.0
+        with:
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
+          message: 'fix: terraform fmt'
+
+  validate:
+    name: Validate
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+
+      - name: Terraform init
+        id: init
+        run: terraform init --backend=false
+        continue-on-error: false
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        continue-on-error: false
+
+  tflint:
+    name: "TFLint"
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout source code
+
+      - uses: terraform-linters/setup-tflint@v2
+        name: Setup TFLint
+        with:
+          tflint_version: ${{ inputs.tflint_version }}
+      - uses: terraform-linters/tflint-load-config-action@v0
+        with:
+          source-repo: ${{ inputs.tflint_config_repo }}
+          source-path: ${{ inputs.tflint_config_path }}
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+  tfsec:
+    name: TFSec
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+
+
+  checkov:
+    name: Checkov
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          check: ${{ inputs.checkov_check }}
+          skip_check: ${{ inputs.checkov_skip_check }}
+          soft_fail: false
+          framework: terraform
+          download_external_modules: false
+          log_level: WARNING
+
+  docs:
+    name: Terraform Docs
+    runs-on: ${{ inputs.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          working-dir: .
+          args: "--sort=false"
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+
+  terraform-plan:
+    name: "${{ inputs.environment }} Plan"
+    runs-on: ${{ inputs.runs-on }}
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+          cli_config_credentials_token: ${{ secrets.TFE_TOKEN }}
+
+      - name: Terraform version
+        working-directory: ${{ inputs.working_directory }}
+        id: version
+        run: terraform --version
+        continue-on-error: false
+
+      - name: 'set env variables'
+        run: |
+          IFS='/' read -ra GITHUB_REPOSITORY <<< ${{ github.repository }}
+          echo "GITHUB_ORGANISATION_NAME=${GITHUB_REPOSITORY[0]}" >> $GITHUB_ENV
+          echo "GITHUB_REPOSITORY_NAME=${GITHUB_REPOSITORY[1]}" >> $GITHUB_ENV
+
+      - name: Configure Github credentials
+        run: git config --global url."https://${{ env.GITHUB_REPOSITORY_NAME }}:${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf https://github.com
+
+      - name: Configure AWS credentials
+        if: ${{ inputs.aws_account_id != '' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ inputs.role_to_assume }}
+          role-duration-seconds: 3600
+          role-session-name: ${{ env.GITHUB_REPOSITORY_NAME }}
+          aws-region: ${{ inputs.aws_region }}
+
+      - name: Terraform init
+        working-directory: ${{ inputs.working_directory }}
+        id: init
+        run: |
+            if [ "${{ inputs.environment }}" == "" ]; then
+              terraform init
+            else
+              terraform init -backend-config=environments/${{ inputs.environment }}-backend.config
+            fi
+        continue-on-error: false
+
+      - name: Terraform plan
+        working-directory: ${{ inputs.working_directory }}
+        id: plan
+        run: |
+          if [ "${{ inputs.environment }}" == "" ]; then
+            terraform plan
+          else
+            terraform plan -input=false -var-file=environments/${{ inputs.environment }}.tfvars
+          fi
+

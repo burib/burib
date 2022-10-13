@@ -1,0 +1,173 @@
+name: Terraform Module Review
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        description: 'Where to run, usually ubuntu-latest or self-hosted'
+        default: 'ubuntu-latest'
+        required: false
+        type: string
+
+      tf_version:
+        description: 'Terraform version to run'
+        default: '1.3.0'
+        required: false
+        type: string
+
+      tflint_version:
+        description: 'TFLint version to run'
+        default: 'latest'
+        required: false
+        type: string
+
+      tflint_config_repo:
+        description: 'Public Repo Where TFLint Config can be found'
+        default: 'burib/workflows'
+        required: false
+        type: string
+
+      tflint_config_path:
+        description: 'Path inside the Public Repo Where TFLint Config can be found'
+        default: 'configs/aws.tflint.hcl'
+        required: false
+        type: string
+
+      checkov_check:
+        description: 'Comma-separated list of Checkov tests to perform'
+        default: ''
+        required: false
+        type: string
+
+      checkov_skip_check:
+        description: 'Comma-separated list of Checkov tests to skip'
+        default: ''
+        required: false
+        type: string
+
+jobs:
+  format:
+    name: Format
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Format Terraform Code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -recursive
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.1.0
+        with:
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
+          message: 'fix: terraform fmt'
+
+  validate:
+    name: Validate
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+
+      - name: Terraform init
+        id: init
+        run: terraform init --backend=false
+        continue-on-error: false
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        continue-on-error: false
+
+  tflint:
+    name: "TFLint"
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout source code
+
+      - uses: terraform-linters/setup-tflint@v2
+        name: Setup TFLint
+        with:
+          tflint_version: ${{ inputs.tflint_version }}
+      - uses: terraform-linters/tflint-load-config-action@v0
+        with:
+          source-repo: ${{ inputs.tflint_config_repo }}
+          source-path: ${{ inputs.tflint_config_path }}
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+  tfsec:
+    name: TFSec
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+
+
+  checkov:
+    name: Checkov
+    runs-on: ${{ inputs.runs-on }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          check: ${{ inputs.checkov_check }}
+          skip_check: ${{ inputs.checkov_skip_check }}
+          soft_fail: false
+          framework: terraform
+          download_external_modules: false
+          log_level: WARNING
+
+  docs:
+    name: Terraform Docs
+    runs-on: ${{ inputs.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          working-dir: .
+          args: "--sort=false"
+          output-file: README.md
+          output-method: inject
+          git-push: "true"

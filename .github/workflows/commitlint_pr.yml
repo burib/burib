@@ -1,0 +1,54 @@
+name: "Conventional Commits Check. https://www.conventionalcommits.org/"
+# validates commit messages and PR titles against the Conventional Commits spec
+
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        description: 'Where to run, usually ubuntu-latest or self-hosted'
+        default: 'ubuntu-latest'
+        required: false
+        type: string
+
+jobs:
+  validate_commit_messages:
+    name: "Validate Commit Messages"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: |
+          echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+          npm install -g @commitlint/config-conventional
+          npx commitlint --from ${{ github.event.pull_request.base.sha }} --to HEAD
+
+  validate_pr_title:
+    name: "Validate PR Title and Body"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Validate PR Title and Body"
+        uses: amannn/action-semantic-pull-request@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Configure which types are allowed.
+          # Default: https://github.com/commitizen/conventional-commit-types
+          types: |
+            fix
+            feat
+            docs
+            ci
+            chore
+          requireScope: false
+          # For work-in-progress PRs you can typically use draft pull requests
+          # from Github. However, private repositories on the free plan don't have
+          # this option and therefore this action allows you to opt-in to using the
+          # special "[WIP]" prefix to indicate this state. This will avoid the
+          # validation of the PR title and the pull request checks remain pending.
+          # Note that a second check will be reported if this is enabled.
+          wip: true
+          # When using "Squash and merge" on a PR with only one commit, GitHub
+          # will suggest using that commit message instead of the PR title for the
+          # merge commit, and it's easy to commit this by mistake. Enable this option
+          # to also validate the commit message for one commit PRs.
+          validateSingleCommit: true

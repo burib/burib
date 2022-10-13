@@ -1,0 +1,23 @@
+name: "WakaTime Readme"
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+
+jobs:
+  update-readme:
+    name: "Update this repo's README with wakaTime stats"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set current time as env variable"
+        run: echo "CURRENT_TIME::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+      - name: "Set current date as env variable"
+        run: echo "CURRENT_DATE::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      - name: "update README.md"
+        uses: athul/waka-readme@master
+        with:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+          SHOW_TITLE: true
+          COMMIT_MESSAGE: "docs: Update README with last weeks. wakaTime stats at ${ CURRENT_TIME }"
