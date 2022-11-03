@@ -30,14 +30,14 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 24 October 2022 - To: 31 October 2022
+From: 25 October 2022 - To: 01 November 2022
 
-YAML             13 hrs 57 mins  █████████████▒░░░░░░░░░░░   53.21 %
-Terraform        8 hrs 27 mins   ████████░░░░░░░░░░░░░░░░░   32.22 %
-Bash             1 hr 21 mins    █▒░░░░░░░░░░░░░░░░░░░░░░░   05.16 %
-Markdown         1 hr 2 mins     █░░░░░░░░░░░░░░░░░░░░░░░░   03.99 %
-Shell Script     58 mins         █░░░░░░░░░░░░░░░░░░░░░░░░   03.71 %
-GitIgnore file   20 mins         ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.28 %
+Terraform        13 hrs          █████████████░░░░░░░░░░░░   51.65 %
+YAML             9 hrs 35 mins   █████████▓░░░░░░░░░░░░░░░   38.04 %
+Markdown         1 hr 29 mins    █▒░░░░░░░░░░░░░░░░░░░░░░░   05.92 %
+Shell Script     20 mins         ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.36 %
+GitIgnore file   20 mins         ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.33 %
+Bash             19 mins         ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.32 %
 ```
 
 <!--END_SECTION:waka-->
