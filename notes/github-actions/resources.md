@@ -1,1 +1,3 @@
 https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/
+https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
+https://www.cloudwithchris.com/blog/githubactions-testsummary-go/
