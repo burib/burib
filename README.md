@@ -30,11 +30,12 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 30 November 2022 - To: 07 December 2022
+From: 01 December 2022 - To: 08 December 2022
 
-Terraform   2 hrs 15 mins   ████████████████████████░   96.38 %
-YAML        4 mins          █░░░░░░░░░░░░░░░░░░░░░░░░   03.49 %
-Markdown    0 secs          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.13 %
+Terraform   5 hrs 5 mins    ████████████████████████▒   97.05 %
+YAML        4 mins          ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.59 %
+HCL         4 mins          ▒░░░░░░░░░░░░░░░░░░░░░░░░   01.28 %
+Markdown    0 secs          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.08 %
 ```
 
 <!--END_SECTION:waka-->
