@@ -30,14 +30,14 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```text
-From: 16 April 2023 - To: 23 April 2023
+From: 17 April 2023 - To: 24 April 2023
 
-Terraform        5 hrs 59 mins   ███████████████████▓░░░░░   79.31 %
-YAML             1 hr 7 mins     ███▓░░░░░░░░░░░░░░░░░░░░░   14.90 %
-Bash             17 mins         █░░░░░░░░░░░░░░░░░░░░░░░░   03.91 %
-JSON             3 mins          ▒░░░░░░░░░░░░░░░░░░░░░░░░   00.73 %
-Shell Script     2 mins          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.54 %
-Text             1 min           ░░░░░░░░░░░░░░░░░░░░░░░░░   00.36 %
+Terraform        6 hrs 36 mins   ██████████████▒░░░░░░░░░░   57.67 %
+YAML             4 hrs 24 mins   █████████▓░░░░░░░░░░░░░░░   38.50 %
+Bash             17 mins         ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.59 %
+JSON             3 mins          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.48 %
+Shell Script     2 mins          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.36 %
+Text             1 min           ░░░░░░░░░░░░░░░░░░░░░░░░░   00.24 %
 ```
 
 <!--END_SECTION:waka-->
