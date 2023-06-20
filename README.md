@@ -30,7 +30,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```txt
-From: 10 June 2023 - To: 17 June 2023
+From: 11 June 2023 - To: 18 June 2023
 
 Terraform       7 hrs 2 mins    █████████████████▒░░░░░░░   69.97 %
 Shell Script    1 hr 5 mins     ██▓░░░░░░░░░░░░░░░░░░░░░░   10.86 %
