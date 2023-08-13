@@ -30,11 +30,9 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```txt
-From: 03 August 2023 - To: 10 August 2023
+From: 04 August 2023 - To: 11 August 2023
 
-Terraform      0 secs          ██████████████████▒░░░░░░   73.71 %
-YAML           0 secs          ██████▓░░░░░░░░░░░░░░░░░░   26.22 %
-Shell Script   0 secs          ░░░░░░░░░░░░░░░░░░░░░░░░░   00.07 %
+No activity tracked
 ```
 
 <!--END_SECTION:waka-->
