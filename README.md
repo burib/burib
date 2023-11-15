@@ -25,7 +25,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <a href="https://www.credly.com/badges/117038d0-e05e-45a7-872a-fd7aea41116d" target="_blank"><img src="https://user-images.githubusercontent.com/956227/164708595-23b4c19c-9e53-4274-b4c0-cdf5b496f3d2.png" width="150" height="150" align="left" alt="AWS Solutions Architect Associate"/></a>
 <a href="https://www.credly.com/badges/9637581d-823c-44c5-b32c-cc5868fec2ac" target="_blank"><img src="https://user-images.githubusercontent.com/956227/164708683-d60bd09f-dba8-4ba0-bd1a-925294fe0d67.png" width="150" height="150" alt="AWS Developer Associate" /></a>
 <a href="https://www.credly.com/badges/83f20920-eb6e-4f87-8098-8db63e56f583" target="_blank"><img src="https://user-images.githubusercontent.com/956227/164708739-9c29f8f5-305a-4fd8-8138-a41998bf053a.png" width="150" height="150" alt="AWS SysOps Administrator" /></a>
-<br><br><br><br><br><br><br><br>
+<br><br
 <a href="https://www.credly.com/badges/2e13429e-391a-44f4-b866-f811c73d61a5/public_url" target="_blank"><img src="https://user-images.githubusercontent.com/956227/169990187-5385d262-39cf-4408-873b-e31187d53b45.png" width="150" height="150" alt="HashiCorp Certified Terraform Associate" /></a>
 
 
