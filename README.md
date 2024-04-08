@@ -34,7 +34,7 @@ Software Engineer with passion for Full Stack AWS Serverless Architecture & Deve
 <!--START_SECTION:waka-->
 
 ```txt
-From: 29 March 2024 - To: 05 April 2024
+From: 30 March 2024 - To: 06 April 2024
 
 TypeScript       4 hrs 31 mins   ████████████▓░░░░░░░░░░░░   51.03 %
 Go               1 hr 59 mins    █████▓░░░░░░░░░░░░░░░░░░░   22.55 %
