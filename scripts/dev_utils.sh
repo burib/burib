@@ -1,9 +1,9 @@
 #!/bin/zsh
-# ~/.config/zsh/my_dev_utils.sh
+# ~/.config/dev_utils.sh
 #
 # Utility functions and aliases for development workflows (Git, Terraform, etc.)
 # Source this file from your .zshrc:
-#   source /path/to/this/file/my_dev_utils.sh
+#   source /path/to/this/file/~/dev_utils.sh
 
 # --- Git Functions ---
 
