@@ -337,6 +337,3 @@ function clone_all_org_repos() {
 
 # Optional: Add an alias for convenience
 alias clone_org=clone_all_org_repos
-
-# --- End of Script ---
-echo "Development utilities loaded." # Optional: Confirmation message
