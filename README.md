@@ -43,6 +43,16 @@ No activity tracked
 
 <br /><br />
 
+### New Mac setup
+
+One line bootstraps a fresh Mac with my full setup - Homebrew and all packages, fonts, dotfiles, and my Terminal profiles ([what it does](scripts/setup_mac.sh)):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/burib/burib/main/scripts/setup_mac.sh)"
+```
+
+<br /><br />
+
 
 <!--
 **burib/burib** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
