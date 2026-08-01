@@ -236,7 +236,6 @@ uuid() {
 function clone_all_org_repos() {
   # Check for required tools
   if ! command -v gh &> /dev/null; then echo "Error: GitHub CLI 'gh' not found." >&2; return 1; fi
-  if ! command -v jq &> /dev/null; then echo "Error: 'jq' not found." >&2; return 1; fi
   if ! command -v git &> /dev/null; then echo "Error: 'git' not found." >&2; return 1; fi
 
   # Check gh authentication status
