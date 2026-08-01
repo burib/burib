@@ -191,21 +191,13 @@ function upperCase() {
   tr '[:lower:]' '[:upper:]'
 }
 
-# Converts input lines to Sentence Case (first letter of first word capitalized, rest lower)
-# This version processes line by line and only uppercases the very first letter.
+# Converts input lines to Sentence Case (first letter upper, rest lower).
+# Pure zsh: `read` into a single var already trims surrounding whitespace,
+# and the (U)/(L) expansion flags replace the tr/sed subshells.
 function sentenceCase() {
+    local line
     while read -r line; do
-        local string="$line"
-        # Trim leading/trailing whitespace first
-        string="$(echo -e "${string}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-        if [[ -n "$string" ]]; then
-            local first_char="${string:0:1}"
-            local rest_chars="${string:1}"
-            # Uppercase first char, lowercase the rest
-            echo "$(echo "$first_char" | tr '[:lower:]' '[:upper:]')$(echo "$rest_chars" | tr '[:upper:]' '[:lower:]')"
-        else
-            echo "" # Output empty line if input was empty/whitespace
-        fi
+        print -r -- "${(U)line[1]}${(L)line[2,-1]}"
     done
 }
 
