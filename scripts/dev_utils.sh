@@ -5,6 +5,15 @@
 # Source this file from your .zshrc:
 #   source /path/to/this/file/~/dev_utils.sh
 
+# --- Colors ---
+# Real escape characters via $'...', so plain echo works without -e.
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[0;33m'
+BLUE=$'\033[0;34m'
+BOLD_RED=$'\033[1;31m'
+RESET=$'\033[0m'
+
 # --- Git Functions ---
 
 # Get current Git branch and copy to clipboard
@@ -14,22 +23,22 @@ function current_branch() {
   current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || git branch --show-current 2>/dev/null)
 
   if [[ -z "$current_branch" ]]; then
-    echo "\033[0;31mError: Not on a branch or not in a git repository.\033[0m" >&2
+    echo "${RED}Error: Not on a branch or not in a git repository.${RESET}" >&2
     return 1 # Indicate failure
   fi
 
   # Clipboard compatibility (macOS vs Linux)
   if command -v pbcopy &> /dev/null; then
     echo "$current_branch" | pbcopy
-    echo "\033[0;33m'$current_branch' copied to macOS clipboard.\033[0m"
+    echo "${YELLOW}'$current_branch' copied to macOS clipboard.${RESET}"
   elif command -v xclip &> /dev/null; then
     echo "$current_branch" | xclip -selection clipboard
-    echo "\033[0;33m'$current_branch' copied to X clipboard.\033[0m"
+    echo "${YELLOW}'$current_branch' copied to X clipboard.${RESET}"
   elif command -v xsel &> /dev/null; then
     echo "$current_branch" | xsel --clipboard --input
-    echo "\033[0;33m'$current_branch' copied to X clipboard.\033[0m"
+    echo "${YELLOW}'$current_branch' copied to X clipboard.${RESET}"
   else
-    echo "\033[0;33m'$current_branch' (clipboard command not found).\033[0m"
+    echo "${YELLOW}'$current_branch' (clipboard command not found).${RESET}"
   fi
   return 0 # Indicate success
 }
@@ -42,14 +51,14 @@ function rebase_on() {
   current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || git branch --show-current 2>/dev/null)
 
   if [[ -z "$current_branch" ]]; then
-    echo "\033[0;31mError: Could not determine current branch. Not in a git repository?\033[0m" >&2
+    echo "${RED}Error: Could not determine current branch. Not in a git repository?${RESET}" >&2
     return 1
   fi
 
   if [[ "$current_branch" == "$target_branch" ]]; then
-    echo "\033[0;33mAlready on '$target_branch'. Pulling...\033[0m"
-    git pull || { echo "\033[0;31mError: Failed to pull '$target_branch'.\033[0m" >&2; return 1; }
-    echo "\033[0;32mPull successful on '$target_branch'.\033[0m"
+    echo "${YELLOW}Already on '$target_branch'. Pulling...${RESET}"
+    git pull || { echo "${RED}Error: Failed to pull '$target_branch'.${RESET}" >&2; return 1; }
+    echo "${GREEN}Pull successful on '$target_branch'.${RESET}"
     return 0
   fi
 
@@ -57,21 +66,21 @@ function rebase_on() {
   # branch is never touched, and --autostash carries uncommitted changes
   # across the rebase (the old checkout-based version refused a dirty tree).
   echo "--> Fetching latest '$target_branch'..."
-  git fetch origin "$target_branch" || { echo "\033[0;31mError: Failed to fetch '$target_branch' from origin.\033[0m" >&2; return 1; }
+  git fetch origin "$target_branch" || { echo "${RED}Error: Failed to fetch '$target_branch' from origin.${RESET}" >&2; return 1; }
 
   echo "--> Rebasing '$current_branch' onto 'origin/$target_branch'..."
-  git rebase --autostash "origin/$target_branch" || { echo "\033[0;31mError: Rebase failed. Please resolve conflicts and run 'git rebase --continue' or 'git rebase --abort'.\033[0m" >&2; return 1; }
+  git rebase --autostash "origin/$target_branch" || { echo "${RED}Error: Rebase failed. Please resolve conflicts and run 'git rebase --continue' or 'git rebase --abort'.${RESET}" >&2; return 1; }
 
-  echo "\033[0;32mSuccessfully rebased '$current_branch' onto 'origin/$target_branch'.\033[0m"
+  echo "${GREEN}Successfully rebased '$current_branch' onto 'origin/$target_branch'.${RESET}"
   return 0
 }
 
 # Checkout main and pull
 function main() {
   echo "Switching to main and pulling..."
-  git checkout main || { echo "\033[0;31mError: Failed to checkout main.\033[0m" >&2; return 1; }
-  git pull || { echo "\033[0;31mError: Failed to pull main.\033[0m" >&2; return 1; }
-  echo "\033[0;32mSwitched to main and pulled successfully.\033[0m"
+  git checkout main || { echo "${RED}Error: Failed to checkout main.${RESET}" >&2; return 1; }
+  git pull || { echo "${RED}Error: Failed to pull main.${RESET}" >&2; return 1; }
+  echo "${GREEN}Switched to main and pulled successfully.${RESET}"
   return 0
 }
 
@@ -79,7 +88,7 @@ function main() {
 function commit() {
   local MESSAGE="$1"
   if [[ -z "$MESSAGE" ]]; then
-    echo "\033[0;31mError: Commit message is required.\033[0m" >&2
+    echo "${RED}Error: Commit message is required.${RESET}" >&2
     echo "Usage: commit \"Your commit message\"" >&2
     return 1
   fi
@@ -93,8 +102,8 @@ function commit() {
   echo "--> Committing with message: '$MESSAGE'"
   # Note: -a stages all tracked, modified files.
   # Removed --no-verify by default for safety (respects hooks). Use 'force_commit' alias to bypass.
-  git commit -am "$MESSAGE" || { echo "\033[0;31mError: Git commit failed.\033[0m" >&2; return 1; }
-  echo "\033[0;32mCommit successful.\033[0m"
+  git commit -am "$MESSAGE" || { echo "${RED}Error: Git commit failed.${RESET}" >&2; return 1; }
+  echo "${GREEN}Commit successful.${RESET}"
   return 0
 }
 
@@ -107,12 +116,12 @@ function status() {
 function new () {
   local branch_name="$1"
   if [[ -z "$branch_name" ]]; then
-    echo "\033[0;31mError: Branch name is required.\033[0m" >&2
+    echo "${RED}Error: Branch name is required.${RESET}" >&2
     echo "Usage: new <new-branch-name>" >&2
     return 1
   fi
-  git checkout -b "$branch_name" || { echo "\033[0;31mError: Failed to create branch '$branch_name'. Does it already exist?\033[0m" >&2; return 1; }
-  echo "\033[0;32mSwitched to a new branch '$branch_name'.\033[0m"
+  git checkout -b "$branch_name" || { echo "${RED}Error: Failed to create branch '$branch_name'. Does it already exist?${RESET}" >&2; return 1; }
+  echo "${GREEN}Switched to a new branch '$branch_name'.${RESET}"
   return 0
 }
 
@@ -124,24 +133,24 @@ alias init_dev="terraform init -backend-config=environments/dev.tfbackend"
 
 # Terraform Plan aliases
 alias plan="terraform plan"
-alias plan_dev='echo -e "\n\033[0;34m--- Planning DEV Environment --- \033[0m\n" && terraform plan -var-file=environments/dev.tfvars'
-alias plan_prod='echo -e "\n\033[0;31m--- Planning PROD Environment --- \033[0m\n" && terraform plan -var-file=environments/prod.tfvars'
+alias plan_dev='echo -e "\n${BLUE}--- Planning DEV Environment --- ${RESET}\n" && terraform plan -var-file=environments/dev.tfvars'
+alias plan_prod='echo -e "\n${RED}--- Planning PROD Environment --- ${RESET}\n" && terraform plan -var-file=environments/prod.tfvars'
 # This alias assumes 'terraform plan' without var-file is desired for prod after init_prod
 # Or maybe it refers to a Terraform Cloud/Enterprise remote plan execution? Clarify based on your workflow.
-alias plan_prod_remote='echo -e "\n\033[0;31m--- Planning PROD Environment (Remote State Default Vars) --- \033[0m\n" && terraform plan'
+alias plan_prod_remote='echo -e "\n${RED}--- Planning PROD Environment (Remote State Default Vars) --- ${RESET}\n" && terraform plan'
 
 # Terraform Apply aliases - REMOVED --auto-approve FOR SAFETY
 # Add --auto-approve back ONLY if you FULLY understand and accept the risks, especially for PROD.
 alias apply="terraform apply"
-alias apply_dev='echo -e "\n\033[0;34m--- Applying DEV Environment --- \033[0m\n" && terraform apply -var-file=environments/dev.tfvars'
-alias apply_prod='echo -e "\n\033[0;31m*** Applying PROD Environment *** CAUTION! *** \033[0m\n" && terraform apply -var-file=environments/prod.tfvars'
-alias apply_prod_remote='echo -e "\n\033[0;31m*** Applying PROD Environment (Remote State Default Vars) *** CAUTION! *** \033[0m\n" && terraform apply'
+alias apply_dev='echo -e "\n${BLUE}--- Applying DEV Environment --- ${RESET}\n" && terraform apply -var-file=environments/dev.tfvars'
+alias apply_prod='echo -e "\n${RED}*** Applying PROD Environment *** CAUTION! *** ${RESET}\n" && terraform apply -var-file=environments/prod.tfvars'
+alias apply_prod_remote='echo -e "\n${RED}*** Applying PROD Environment (Remote State Default Vars) *** CAUTION! *** ${RESET}\n" && terraform apply'
 
 # Terraform Destroy aliases - CORRECTED & ADDED WARNING
 # Add --auto-approve ONLY if you understand the risks for DEV. NEVER for PROD.
-alias destroy_dev='echo -e "\n\033[1;31m*** DESTROYING DEV ENVIRONMENT *** ARE YOU SURE? ***\033[0m\n" && terraform destroy -var-file=environments/dev.tfvars'
+alias destroy_dev='echo -e "\n${BOLD_RED}*** DESTROYING DEV ENVIRONMENT *** ARE YOU SURE? ***${RESET}\n" && terraform destroy -var-file=environments/dev.tfvars'
 # Example with auto-approve for DEV (use with extreme caution):
-# alias destroy_dev_auto='echo -e "\n\033[1;31m*** DESTROYING DEV ENVIRONMENT (AUTO-APPROVED) ***\033[0m\n" && terraform destroy -var-file=environments/dev.tfvars --auto-approve'
+# alias destroy_dev_auto='echo -e "\n${BOLD_RED}*** DESTROYING DEV ENVIRONMENT (AUTO-APPROVED) ***${RESET}\n" && terraform destroy -var-file=environments/dev.tfvars --auto-approve'
 
 # Terraform fmt alias
 alias fmt="terraform fmt --recursive"
@@ -150,12 +159,12 @@ alias fmt="terraform fmt --recursive"
 function unlock() {
   local LOCK_ID="$1"
   if [[ -z "$LOCK_ID" ]]; then
-     echo "\033[0;31mError: Lock ID is required.\033[0m" >&2
+     echo "${RED}Error: Lock ID is required.${RESET}" >&2
      echo "Usage: unlock <LOCK_ID>" >&2
      echo "Hint: Run 'terraform plan' or 'terraform apply' to see the Lock ID if locked." >&2
      return 1
   fi
-  echo "\033[0;33mAttempting to force-unlock Lock ID: $LOCK_ID\033[0m"
+  echo "${YELLOW}Attempting to force-unlock Lock ID: $LOCK_ID${RESET}"
   terraform force-unlock -force "$LOCK_ID"
 }
 
@@ -165,7 +174,7 @@ alias branch="current_branch"
 alias rebase="rebase_on main" # Default rebase points to main
 alias rebase_main="rebase_on main"
 alias rebase_master="rebase_on master"
-alias force_commit='echo "\033[0;33mBypassing pre-commit hooks (--no-verify)\033[0m" && commit --no-verify' # Alias to commit WITH --no-verify
+alias force_commit='echo "${YELLOW}Bypassing pre-commit hooks (--no-verify)${RESET}" && commit --no-verify' # Alias to commit WITH --no-verify
 
 alias pull="git pull"
 alias push="git push"
@@ -215,7 +224,7 @@ uuid() {
   if command -v uuidgen &> /dev/null; then
     uuidgen | tr '[:upper:]' '[:lower:]'
   else
-    echo "\033[0;31mError: 'uuidgen' command not found.\033[0m" >&2
+    echo "${RED}Error: 'uuidgen' command not found.${RESET}" >&2
     return 1
   fi
 }
@@ -250,17 +259,17 @@ function clone_all_org_repos() {
   local repo_id_list # Store the clean list of owner/repo
   # Increased limit just in case, adjust if needed
   if ! repo_id_list=$(gh repo list "$org_name" --limit 5000 --no-archived --json nameWithOwner -q '.[].nameWithOwner'); then
-      echo "\033[0;31mError: Failed to fetch repository list using 'gh repo list'. Check org name and permissions.\033[0m" >&2
+      echo "${RED}Error: Failed to fetch repository list using 'gh repo list'. Check org name and permissions.${RESET}" >&2
       return 1
   fi
 
   if [[ -z "$repo_id_list" ]]; then
-      echo "\033[0;33mNo non-archived repositories found for organization '$org_name' or you may lack permissions.\033[0m"
+      echo "${YELLOW}No non-archived repositories found for organization '$org_name' or you may lack permissions.${RESET}"
       return 0
   fi
 
   echo "Target directory: '$target_dir'"
-  mkdir -p "$target_dir" || { echo "\033[0;31mError: Failed to create target directory '$target_dir'.\033[0m" >&2; return 1; }
+  mkdir -p "$target_dir" || { echo "${RED}Error: Failed to create target directory '$target_dir'.${RESET}" >&2; return 1; }
 
   # --- Process Repositories ---
   local repo_id repo_name clone_path
@@ -286,25 +295,25 @@ function clone_all_org_repos() {
       # Use -C to change directory for the git command only
       # Pull with rebase to avoid merge commits, add --ff-only if preferred
       if git -C "$clone_path" pull --rebase; then
-        echo " \033[0;32m-> Update successful for '$repo_name'.\033[0m"
+        echo " ${GREEN}-> Update successful for '$repo_name'.${RESET}"
         update_count=$((update_count + 1))
       else
-        echo " \033[0;31mError: Failed to update '$repo_name'. Check for conflicts or errors above.\033[0m" >&2
+        echo " ${RED}Error: Failed to update '$repo_name'. Check for conflicts or errors above.${RESET}" >&2
         fail_count=$((fail_count + 1))
       fi
     elif [[ -e "$clone_path" ]]; then
        # Path exists but is not a git repository or a broken symlink etc.
-       echo " \033[0;33mWarning: Path '$clone_path' exists but is not a git repository. Skipping '$repo_name'.\033[0m" >&2
+       echo " ${YELLOW}Warning: Path '$clone_path' exists but is not a git repository. Skipping '$repo_name'.${RESET}" >&2
        skip_count=$((skip_count + 1))
     else
       # Directory does not exist, clone it using gh repo clone
       echo " -> Cloning '$repo_id' into '$clone_path'..."
       # gh repo clone OWNER/REPO TARGET_DIRECTORY
       if gh repo clone "$repo_id" "$clone_path"; then
-        echo " \033[0;32m-> Clone successful for '$repo_name'.\033[0m"
+        echo " ${GREEN}-> Clone successful for '$repo_name'.${RESET}"
         success_count=$((success_count + 1))
       else
-        echo " \033[0;31mError: Failed to clone '$repo_name' using 'gh repo clone'.\033[0m" >&2
+        echo " ${RED}Error: Failed to clone '$repo_name' using 'gh repo clone'.${RESET}" >&2
         fail_count=$((fail_count + 1))
       fi
     fi
@@ -320,7 +329,7 @@ function clone_all_org_repos() {
   echo "------------------------------"
 
   if [[ $fail_count -gt 0 ]]; then
-      echo "\033[0;31mSome operations failed. Please review the output above.\033[0m"
+      echo "${RED}Some operations failed. Please review the output above.${RESET}"
       return 1 # Return error code if any operation failed
   fi
   return 0
