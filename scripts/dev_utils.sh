@@ -53,25 +53,16 @@ function rebase_on() {
     return 0
   fi
 
-  echo "Rebasing '$current_branch' onto '$target_branch'..."
+  # Rebase onto origin/<target> directly: no checkout dance, the local target
+  # branch is never touched, and --autostash carries uncommitted changes
+  # across the rebase (the old checkout-based version refused a dirty tree).
+  echo "--> Fetching latest '$target_branch'..."
+  git fetch origin "$target_branch" || { echo "\033[0;31mError: Failed to fetch '$target_branch' from origin.\033[0m" >&2; return 1; }
 
-  # Checkout target branch
-  echo "--> Checking out '$target_branch'..."
-  git checkout "$target_branch" || { echo "\033[0;31mError: Failed to checkout '$target_branch'.\033[0m" >&2; git checkout "$current_branch" &>/dev/null; return 1; } # Try to go back
+  echo "--> Rebasing '$current_branch' onto 'origin/$target_branch'..."
+  git rebase --autostash "origin/$target_branch" || { echo "\033[0;31mError: Rebase failed. Please resolve conflicts and run 'git rebase --continue' or 'git rebase --abort'.\033[0m" >&2; return 1; }
 
-  # Pull target branch
-  echo "--> Pulling latest changes for '$target_branch'..."
-  git pull || { echo "\033[0;31mError: Failed to pull '$target_branch'.\033[0m" >&2; git checkout "$current_branch" &>/dev/null; return 1; } # Try to go back
-
-  # Checkout original branch
-  echo "--> Checking out '$current_branch'..."
-  git checkout "$current_branch" || { echo "\033[0;31mError: Failed to checkout back to '$current_branch'.\033[0m" >&2; return 1; }
-
-  # Rebase
-  echo "--> Rebasing '$current_branch' onto '$target_branch'..."
-  git rebase "$target_branch" || { echo "\033[0;31mError: Rebase failed. Please resolve conflicts and run 'git rebase --continue' or 'git rebase --abort'.\033[0m" >&2; return 1; }
-
-  echo "\033[0;32mSuccessfully rebased '$current_branch' onto '$target_branch'.\033[0m"
+  echo "\033[0;32mSuccessfully rebased '$current_branch' onto 'origin/$target_branch'.\033[0m"
   return 0
 }
 
