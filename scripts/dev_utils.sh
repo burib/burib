@@ -131,6 +131,21 @@ function new () {
   return 0
 }
 
+# Delete local branches whose upstream is gone (merged + deleted on the remote)
+function prune_gone() {
+  git fetch -p || return 1
+  local branch deleted=0
+  for branch in $(git for-each-ref --format '%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {print $1}'); do
+    git branch -D "$branch" && deleted=$((deleted + 1))
+  done
+  echo "${GREEN}Pruned $deleted stale branch(es).${RESET}"
+}
+
+# Open the current branch's PR in the browser, creating it first if none exists
+function pr() {
+  gh pr view --web 2>/dev/null || gh pr create --fill --web
+}
+
 # --- OpenTofu / Terraform ---
 
 # One binary for every alias below: tofu where available, terraform otherwise.
@@ -213,6 +228,11 @@ titleCase() {
         # Use Zsh's parameter expansion flags: ${(C)name} capitalizes each word
         print -r -- "${(C)line}"
     done
+}
+
+# Make a directory (parents included) and cd into it
+function mkcd() {
+  mkdir -p "$1" && cd "$1"
 }
 
 # Generate a lowercase UUID
@@ -333,3 +353,24 @@ function clone_all_org_repos() {
 
 # Optional: Add an alias for convenience
 alias clone_org=clone_all_org_repos
+
+# --- macOS Terminal profile switching (burib-dark / burib-light) ---
+# The profiles are installed by scripts/setup_mac.sh. Flips the macOS
+# appearance too, because the window chrome (title/tab bar) follows the
+# system dark/light mode, not the Terminal profile.
+if [[ "$OSTYPE" == darwin* ]]; then
+  function switch_terminal_profile() {
+    local PROFILE=$1
+    local DARK_MODE=$2
+    osascript \
+      -e "tell application \"System Events\" to tell appearance preferences to set dark mode to $DARK_MODE" \
+      -e 'tell application "Terminal"' \
+      -e "set default settings to settings set \"$PROFILE\"" \
+      -e "set startup settings to settings set \"$PROFILE\"" \
+      -e "set current settings of every tab of every window to settings set \"$PROFILE\"" \
+      -e 'end tell'
+  }
+
+  alias dark="switch_terminal_profile burib-dark true"
+  alias light="switch_terminal_profile burib-light false"
+fi
