@@ -84,25 +84,31 @@ function main() {
   return 0
 }
 
-# Format, add all changes, and commit
+# Format (in tofu/terraform projects), then commit all tracked changes.
+# `commit "msg"` respects hooks; `commit --no-verify "msg"` (= force_commit) bypasses them.
 function commit() {
+  local no_verify=""
+  if [[ "$1" == "--no-verify" ]]; then
+    no_verify="--no-verify"
+    shift
+  fi
   local MESSAGE="$1"
   if [[ -z "$MESSAGE" ]]; then
     echo "${RED}Error: Commit message is required.${RESET}" >&2
-    echo "Usage: commit \"Your commit message\"" >&2
+    echo "Usage: commit [--no-verify] \"Your commit message\"" >&2
     return 1
   fi
 
-  # Run Terraform fmt if in a Terraform project (optional, consider adding check)
-  if [[ -f *.tf || -d .terraform ]]; then
-      echo "--> Running terraform fmt recursively..."
-      terraform fmt --recursive
+  # (N): null glob, so the array is simply empty when no .tf files exist
+  local -a tf_files=( *.tf(N) )
+  if (( ${#tf_files} )) || [[ -d .terraform ]]; then
+      echo "--> Running ${TF_BIN} fmt --recursive..."
+      "$TF_BIN" fmt --recursive
   fi
 
   echo "--> Committing with message: '$MESSAGE'"
-  # Note: -a stages all tracked, modified files.
-  # Removed --no-verify by default for safety (respects hooks). Use 'force_commit' alias to bypass.
-  git commit -am "$MESSAGE" || { echo "${RED}Error: Git commit failed.${RESET}" >&2; return 1; }
+  # -a stages all tracked, modified files; empty $no_verify vanishes in zsh
+  git commit -am "$MESSAGE" $no_verify || { echo "${RED}Error: Git commit failed.${RESET}" >&2; return 1; }
   echo "${GREEN}Commit successful.${RESET}"
   return 0
 }
@@ -125,47 +131,46 @@ function new () {
   return 0
 }
 
-# --- Terraform Functions & Aliases ---
+# --- OpenTofu / Terraform ---
 
-# Terraform Init aliases
-alias init_prod="terraform init -backend-config=environments/prod.tfbackend"
-alias init_dev="terraform init -backend-config=environments/dev.tfbackend"
+# One binary for every alias below: tofu where available, terraform otherwise.
+if command -v tofu &> /dev/null; then
+  TF_BIN=tofu
+elif command -v terraform &> /dev/null; then
+  TF_BIN=terraform
+else
+  TF_BIN=tofu # neither installed (yet) - fail with a name that says what to install
+fi
 
-# Terraform Plan aliases
-alias plan="terraform plan"
-alias plan_dev='echo -e "\n${BLUE}--- Planning DEV Environment --- ${RESET}\n" && terraform plan -var-file=environments/dev.tfvars'
-alias plan_prod='echo -e "\n${RED}--- Planning PROD Environment --- ${RESET}\n" && terraform plan -var-file=environments/prod.tfvars'
-# This alias assumes 'terraform plan' without var-file is desired for prod after init_prod
-# Or maybe it refers to a Terraform Cloud/Enterprise remote plan execution? Clarify based on your workflow.
-alias plan_prod_remote='echo -e "\n${RED}--- Planning PROD Environment (Remote State Default Vars) --- ${RESET}\n" && terraform plan'
+alias init_prod='${TF_BIN} init -backend-config=environments/prod.tfbackend'
+alias init_dev='${TF_BIN} init -backend-config=environments/dev.tfbackend'
 
-# Terraform Apply aliases - REMOVED --auto-approve FOR SAFETY
-# Add --auto-approve back ONLY if you FULLY understand and accept the risks, especially for PROD.
-alias apply="terraform apply"
-alias apply_dev='echo -e "\n${BLUE}--- Applying DEV Environment --- ${RESET}\n" && terraform apply -var-file=environments/dev.tfvars'
-alias apply_prod='echo -e "\n${RED}*** Applying PROD Environment *** CAUTION! *** ${RESET}\n" && terraform apply -var-file=environments/prod.tfvars'
-alias apply_prod_remote='echo -e "\n${RED}*** Applying PROD Environment (Remote State Default Vars) *** CAUTION! *** ${RESET}\n" && terraform apply'
+alias plan='${TF_BIN} plan'
+alias plan_dev='echo "\n${BLUE}--- Planning DEV --- ${RESET}\n" && ${TF_BIN} plan -var-file=environments/dev.tfvars'
+alias plan_prod='echo "\n${RED}--- Planning PROD --- ${RESET}\n" && ${TF_BIN} plan -var-file=environments/prod.tfvars'
+alias plan_prod_remote='echo "\n${RED}--- Planning PROD (remote state default vars) --- ${RESET}\n" && ${TF_BIN} plan'
 
-# Terraform Destroy aliases - CORRECTED & ADDED WARNING
-# Add --auto-approve ONLY if you understand the risks for DEV. NEVER for PROD.
-alias destroy_dev='echo -e "\n${BOLD_RED}*** DESTROYING DEV ENVIRONMENT *** ARE YOU SURE? ***${RESET}\n" && terraform destroy -var-file=environments/dev.tfvars'
-# Example with auto-approve for DEV (use with extreme caution):
-# alias destroy_dev_auto='echo -e "\n${BOLD_RED}*** DESTROYING DEV ENVIRONMENT (AUTO-APPROVED) ***${RESET}\n" && terraform destroy -var-file=environments/dev.tfvars --auto-approve'
+# Policy: dev applies auto-approve, prod ALWAYS prompts - the confirmation
+# step is the point on prod.
+alias apply='${TF_BIN} apply'
+alias apply_dev='echo "\n${BLUE}--- Applying DEV --- ${RESET}\n" && ${TF_BIN} apply -var-file=environments/dev.tfvars --auto-approve'
+alias apply_prod='echo "\n${RED}*** Applying PROD - review the plan before typing yes ***${RESET}\n" && ${TF_BIN} apply -var-file=environments/prod.tfvars'
+alias apply_prod_remote='echo "\n${RED}*** Applying PROD (remote state default vars) - review the plan ***${RESET}\n" && ${TF_BIN} apply'
 
-# Terraform fmt alias
-alias fmt="terraform fmt --recursive"
+alias destroy_dev='echo "\n${BOLD_RED}*** DESTROYING DEV ***${RESET}\n" && ${TF_BIN} destroy -var-file=environments/dev.tfvars'
 
-# Terraform Unlock function
+alias fmt='${TF_BIN} fmt --recursive'
+
 function unlock() {
   local LOCK_ID="$1"
   if [[ -z "$LOCK_ID" ]]; then
      echo "${RED}Error: Lock ID is required.${RESET}" >&2
      echo "Usage: unlock <LOCK_ID>" >&2
-     echo "Hint: Run 'terraform plan' or 'terraform apply' to see the Lock ID if locked." >&2
+     echo "Hint: a locked plan/apply prints the Lock ID it is blocked on." >&2
      return 1
   fi
   echo "${YELLOW}Attempting to force-unlock Lock ID: $LOCK_ID${RESET}"
-  terraform force-unlock -force "$LOCK_ID"
+  "$TF_BIN" force-unlock -force "$LOCK_ID"
 }
 
 # --- General Aliases ---
@@ -174,7 +179,7 @@ alias branch="current_branch"
 alias rebase="rebase_on main" # Default rebase points to main
 alias rebase_main="rebase_on main"
 alias rebase_master="rebase_on master"
-alias force_commit='echo "${YELLOW}Bypassing pre-commit hooks (--no-verify)${RESET}" && commit --no-verify' # Alias to commit WITH --no-verify
+alias force_commit='echo "${YELLOW}Bypassing pre-commit hooks (--no-verify)${RESET}" && commit --no-verify'
 
 alias pull="git pull"
 alias push="git push"
