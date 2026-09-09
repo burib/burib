@@ -7,6 +7,8 @@ eval "$(oh-my-posh init zsh --config ~/.config/powerlevel10k_lean.omp.json)"
 
 # Homebrew: Python
 export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+alias python=python3
+alias pip=pip3
 
 # nvm. Sourced directly (not via `brew --prefix nvm`) so that a broken or slow
 # brew can't take out the whole shell: when brew errors, $(brew --prefix nvm) is
@@ -19,16 +21,84 @@ elif [[ -s /opt/homebrew/opt/nvm/nvm.sh ]]; then
   source /opt/homebrew/opt/nvm/nvm.sh
 fi
 
+# The blocks below are guarded on what is actually installed: this same file
+# runs on a machine with sdkman and bun but no Antigravity, and on one where
+# it's the other way round.
+
+# bun
+if [[ -d "$HOME/.bun" ]]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+  [[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"   # completions
+fi
+
+# Java
+[[ -d /opt/homebrew/opt/openjdk@21/bin ]] && \
+  export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+# Go. Guarded on the binary, because `go env GOPATH` on a machine without go
+# prints an error on every single shell start.
+command -v go >/dev/null 2>&1 && export PATH="$(go env GOPATH)/bin:$PATH"
+
+# Antigravity ($HOME rather than a hardcoded /Users/burib, so it survives a
+# different username; guarded so the machine without it doesn't carry a dead
+# PATH entry)
+[[ -d "$HOME/.antigravity/antigravity/bin" ]] && \
+  export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"
+
 # Dev helpers (git, tofu, text utils, dark/light, ...) - single source of truth
 # in the burib/burib repo, cloned by scripts/setup_mac.sh. The git/terraform
 # functions and aliases that used to be defined here live there now; a
 # `git pull` in that repo updates every machine.
-[[ -f "$HOME/dev/burib/burib/scripts/dev_utils.sh" ]] && source "$HOME/dev/burib/burib/scripts/dev_utils.sh"
+#
+# The clone isn't in the same place everywhere (setup_mac.sh uses
+# ~/dev/burib/burib; a manual clone often ends up at ~/dev/burib), and a single
+# hardcoded path fails silently: the guard just skips and you get no helpers at
+# all, with no error to explain why. So try the known locations in order.
+for _dev_utils in \
+  "$HOME/dev/burib/burib/scripts/dev_utils.sh" \
+  "$HOME/dev/burib/scripts/dev_utils.sh" \
+  "$HOME/.config/dev_utils.sh"
+do
+  if [[ -f "$_dev_utils" ]]; then
+    source "$_dev_utils"
+    break
+  fi
+done
+unset _dev_utils
 
-source ~/aws_profile.sh
-source ~/aws_s3.sh
+# Not every machine has these (the work laptop authenticates differently)
+[[ -f "$HOME/aws_profile.sh" ]] && source "$HOME/aws_profile.sh"
+[[ -f "$HOME/aws_s3.sh" ]]      && source "$HOME/aws_s3.sh"
 
+# --- Low eye strain colors ---
+# Matches the burib-dark / burib-light Terminal profiles. Each of these replaces
+# a default that reaches for the neon bright ANSI palette; the profiles soften
+# those, but the tools below pick colors of their own.
+export CLICOLOR=1
+export LSCOLORS="fxgxcxdxbxegedabagacad"   # dirs soft yellow; the default dark blue is unreadable on a dark bg
+export GREP_COLORS="mt=38;5;179:sl=:cx=:fn=38;5;108:ln=38;5;245:se=38;5;245"
 
-# Added by Antigravity
-export PATH="/Users/burib/.antigravity/antigravity/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+export LESS="-R -i -M"
+export MANPAGER="less -R"
+# man pages and every git pager: no blinking, no reverse-video flash, no underlines
+export LESS_TERMCAP_mb=$'\e[38;5;173m'          # "blink" -> static amber
+export LESS_TERMCAP_md=$'\e[38;5;179m'          # headings
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[48;5;237;38;5;223m' # status line: dim grey, not bright reverse
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[38;5;109m'          # emphasis: muted teal, underline dropped
+export LESS_TERMCAP_ue=$'\e[0m'
+
+# SDKMAN insists on being last in the file
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+# --- Machine-specific overlay (never committed) ---
+# This repo is public, so anything employer-specific, account-specific or
+# hardware-specific goes in ~/.config/zshrc.local instead of here: internal
+# registries and endpoints, agent sockets, machine-only PATH entries.
+# See dotfiles/zshrc.local.example. Sourced last, so it wins over the above.
+[[ -f "$HOME/.config/zshrc.local" ]] && source "$HOME/.config/zshrc.local"

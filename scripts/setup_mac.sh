@@ -108,8 +108,23 @@ install_file dotfiles/zshrc                       "$HOME/.zshrc"
 install_file dotfiles/aws_profile.sh              "$HOME/aws_profile.sh"
 install_file dotfiles/aws_s3.sh                   "$HOME/aws_s3.sh"
 install_file dotfiles/powerlevel10k_lean.omp.json "$HOME/.config/powerlevel10k_lean.omp.json"
+# NB: scripts/dev_utils.sh is deliberately NOT copied anywhere. .zshrc sources
+# it straight out of this checkout, so `git pull` here updates every machine.
 
-# --- Terminal profiles (burib-dark / burib-light, Catppuccin-based) ---
+# Machine-specific overlay: seed it once, then never touch it again. It holds
+# the config that is deliberately not in this repo (employer tooling, account
+# IDs, agent sockets), so overwriting it on a re-run would destroy the only copy.
+if [ ! -f "$HOME/.config/zshrc.local" ]; then
+  mkdir -p "$HOME/.config"
+  cp "$REPO_DIR/dotfiles/zshrc.local.example" "$HOME/.config/zshrc.local"
+  echo "    $HOME/.config/zshrc.local (new, from template)"
+else
+  echo "    $HOME/.config/zshrc.local (exists, left alone)"
+fi
+
+# --- Terminal profiles (burib-dark / burib-light, warm low-contrast) ---
+# Both are build output of scripts/generate_terminal_profiles.swift; edit the
+# palettes there and re-run it rather than editing the .terminal files by hand.
 log "Installing Terminal profiles"
 mkdir -p "$HOME/.config/terminal-profiles"
 cp "$REPO_DIR"/terminal/*.terminal "$HOME/.config/terminal-profiles/"
@@ -126,6 +141,13 @@ cat <<'EOF'
      permission prompts (control System Events / Terminal).
   2. gh auth login
   3. aws configure   (credentials are deliberately NOT in this repo)
-  4. claude          (sign in on first run)
+  4. claude          (sign in on first run, then /config -> Theme ->
+                     "Dark mode (ANSI colors only)", so it uses the profile
+                     palette instead of its own brighter one)
   5. Close the extra profile-preview Terminal windows.
+  6. Fill in ~/.config/zshrc.local if this machine needs employer or
+     machine-specific config. It is never committed.
+  7. System Settings -> Displays -> Night Shift: schedule Sunset to Sunrise,
+     warmth ~2/3 toward "More Warm". Not scriptable (private API), and it
+     does more for eye strain than anything above.
 EOF

@@ -1,2 +1,8 @@
 Brewfile.dump
 *.backup.*
+
+# Machine-specific shell overlay. This repo is public; the real zshrc.local
+# holds work tooling, account IDs and internal endpoints. Only the .example
+# template is tracked.
+zshrc.local
+dotfiles/zshrc.local

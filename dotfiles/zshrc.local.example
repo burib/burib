@@ -1,0 +1,31 @@
+# ~/.config/zshrc.local - machine-specific shell config. TEMPLATE ONLY.
+#
+# setup_mac.sh copies this to ~/.config/zshrc.local if that file does not exist
+# yet, and never overwrites it afterwards. The real file is NOT tracked in this
+# repo (see .gitignore) - this repo is public.
+#
+# Put here anything that is true of one machine but not the other, and anything
+# that must not be published:
+#
+#   - employer or client tooling, internal endpoints, private registries
+#   - account IDs, org names, hostnames, license keys
+#   - agent sockets and other hardware-specific paths
+#   - PATH entries for software installed on only this machine
+#
+# Sourced last by ~/.zshrc, so it can override anything the shared config sets.
+
+# --- Example: container registry login for a private account ---
+# login_to_central() {
+#   echo "Logging in to Central Registry..."
+#   aws ecr get-login-password --region <region> \
+#     | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+# }
+
+# --- Example: employer-specific helper files kept outside this repo ---
+# [[ -f "$HOME/.config/<employer>_utils.sh" ]] && source "$HOME/.config/<employer>_utils.sh"
+
+# --- Example: hardware-backed SSH agent (Secretive, YubiKey, ...) ---
+# export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+
+# --- Example: PATH entry for a tool installed on this machine only ---
+# export PATH="$HOME/.some-tool/bin:$PATH"
