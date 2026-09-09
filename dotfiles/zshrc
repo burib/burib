@@ -1,6 +1,3 @@
-eval "$(oh-my-posh init zsh --config ~/.config/powerlevel10k_lean.omp.json)"
-
-
 # AWS profile helpers (use / aws_who / list / aws_reset / ...) live in ~/aws_profile.sh,
 # sourced further down. They used to be duplicated here as well, but since that
 # source line runs last it always won -- this copy was dead code.
@@ -68,6 +65,16 @@ do
   fi
 done
 unset _dev_utils
+
+# Prompt (oh-my-posh). _load_prompt_theme lives in dev_utils.sh and picks the
+# dark/light config based on ~/.config/terminal-appearance (written by the
+# `dark`/`light` functions there); fall back to the plain dark config directly
+# if dev_utils.sh wasn't found, so a shell is never left promptless.
+if typeset -f _load_prompt_theme >/dev/null; then
+  _load_prompt_theme
+else
+  eval "$(oh-my-posh init zsh --config ~/.config/powerlevel10k_lean.omp.json)"
+fi
 
 # Not every machine has these (the work laptop authenticates differently)
 [[ -f "$HOME/aws_profile.sh" ]] && source "$HOME/aws_profile.sh"

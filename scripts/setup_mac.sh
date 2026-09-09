@@ -104,10 +104,11 @@ install_file() {
   cp "$src" "$dest"
   echo "    $dest"
 }
-install_file dotfiles/zshrc                       "$HOME/.zshrc"
-install_file dotfiles/aws_profile.sh              "$HOME/aws_profile.sh"
-install_file dotfiles/aws_s3.sh                   "$HOME/aws_s3.sh"
-install_file dotfiles/powerlevel10k_lean.omp.json "$HOME/.config/powerlevel10k_lean.omp.json"
+install_file dotfiles/zshrc                             "$HOME/.zshrc"
+install_file dotfiles/aws_profile.sh                    "$HOME/aws_profile.sh"
+install_file dotfiles/aws_s3.sh                         "$HOME/aws_s3.sh"
+install_file dotfiles/powerlevel10k_lean.omp.json       "$HOME/.config/powerlevel10k_lean.omp.json"
+install_file dotfiles/powerlevel10k_lean_light.omp.json "$HOME/.config/powerlevel10k_lean_light.omp.json"
 # NB: scripts/dev_utils.sh is deliberately NOT copied anywhere. .zshrc sources
 # it straight out of this checkout, so `git pull` here updates every machine.
 
@@ -125,9 +126,30 @@ fi
 # --- Terminal profiles (burib-dark / burib-light, warm low-contrast) ---
 # Both are build output of scripts/generate_terminal_profiles.swift; edit the
 # palettes there and re-run it rather than editing the .terminal files by hand.
+#
+# Re-running this must not accumulate "burib-dark 2", "burib-dark 3", ...:
+# `open` on a .terminal file only reuses a same-named settings set when its
+# content is byte-identical; otherwise Terminal silently imports it under a
+# numbered suffix and "burib-dark" itself keeps pointing at whatever was there
+# before (which is how this repo's own palette change stopped taking effect on
+# a re-run). So: point default/startup away from these names first (Terminal
+# won't delete a settings set that's in use there), delete any existing
+# burib-dark*/burib-light* sets, then import clean. Best-effort - a set still
+# in use by an already-open window/tab can't be deleted; that window keeps its
+# current colors until `dark`/`light` is run in it.
 log "Installing Terminal profiles"
 mkdir -p "$HOME/.config/terminal-profiles"
 cp "$REPO_DIR"/terminal/*.terminal "$HOME/.config/terminal-profiles/"
+osascript \
+  -e 'tell application "Terminal"' \
+  -e 'set default settings to settings set "Basic"' \
+  -e 'set startup settings to settings set "Basic"' \
+  -e 'repeat with s in settings sets' \
+  -e 'if name of s starts with "burib-dark" or name of s starts with "burib-light" then try' \
+  -e 'delete s' \
+  -e 'end try' \
+  -e 'end repeat' \
+  -e 'end tell' 2>/dev/null || true
 open "$HOME/.config/terminal-profiles/burib-dark.terminal"
 open "$HOME/.config/terminal-profiles/burib-light.terminal"
 sleep 2 # give Terminal a moment to register the imported profiles

@@ -1184,6 +1184,27 @@ alias dnstest="dns test"
 # appearance too, because the window chrome (title/tab bar) follows the
 # system dark/light mode, not the Terminal profile.
 if [[ "$OSTYPE" == darwin* ]]; then
+  # Which prompt config to use, tracked across shells in a one-line marker
+  # (not committed - like zshrc.local, this is machine/session state).
+  # Defaults to dark so a shell that has never run `dark`/`light` behaves
+  # exactly as before this existed.
+  POSH_THEME_MARKER="$HOME/.config/terminal-appearance"
+
+  function _posh_config_path() {
+    if [[ -f "$POSH_THEME_MARKER" ]] && [[ "$(cat "$POSH_THEME_MARKER")" == "light" ]]; then
+      echo "$HOME/.config/powerlevel10k_lean_light.omp.json"
+    else
+      echo "$HOME/.config/powerlevel10k_lean.omp.json"
+    fi
+  }
+
+  # Called at shell start (from .zshrc, after this file is sourced) and again
+  # here on every `dark`/`light`, so an already-open shell's prompt updates
+  # immediately instead of only on the next new shell.
+  function _load_prompt_theme() {
+    eval "$(oh-my-posh init zsh --config "$(_posh_config_path)")"
+  }
+
   function switch_terminal_profile() {
     local PROFILE=$1
     local DARK_MODE=$2
@@ -1194,6 +1215,12 @@ if [[ "$OSTYPE" == darwin* ]]; then
       -e "set startup settings to settings set \"$PROFILE\"" \
       -e "set current settings of every tab of every window to settings set \"$PROFILE\"" \
       -e 'end tell'
+    if [[ "$DARK_MODE" == "true" ]]; then
+      echo "dark" > "$POSH_THEME_MARKER"
+    else
+      echo "light" > "$POSH_THEME_MARKER"
+    fi
+    _load_prompt_theme
   }
 
   alias dark="switch_terminal_profile burib-dark true"

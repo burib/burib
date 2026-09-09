@@ -51,10 +51,17 @@ let light = Palette(
     // warm paper tone, not near-white: #f2e5bc rather than #fbf1c7 or #eff1f5
     background: "#f2e5bc", text: "#4f3829", bold: "#3c2b1f",
     cursor: "#af3a03", selection: "#d5c4a1",
-    black: "#654735", red: "#c14a4a", green: "#6c782e", yellow: "#b47109",
-    blue: "#45707a", magenta: "#945e80", cyan: "#4c7a5d", white: "#eee0b7",
-    brightBlack: "#928374", brightRed: "#c14a4a", brightGreen: "#6c782e", brightYellow: "#b47109",
-    brightBlue: "#45707a", brightMagenta: "#945e80", brightCyan: "#4c7a5d", brightWhite: "#f2e5bc"
+    // white/brightWhite mirror dark's white=text, brightWhite=bold: ANSI "white"
+    // is the theme's prominent-foreground slot, not literally a light color. The
+    // first pass used near-paper hexes here (brightWhite was *exactly* the
+    // background), so anything printed in ANSI white vanished entirely.
+    black: "#654735", red: "#953333", green: "#515b23", yellow: "#7a4c06",
+    blue: "#385b63", magenta: "#724862", cyan: "#3a5e47", white: "#4f3829",
+    // accents darkened from the first pass, which sat at 3.1-4.3:1 against this
+    // background (vs. 4.7-6.7:1 for the dark palette's equivalents) - hue held
+    // constant, lightness reduced until each clears ~5.8:1, matching dark's range.
+    brightBlack: "#5d5349", brightRed: "#953333", brightGreen: "#515b23", brightYellow: "#7a4c06",
+    brightBlue: "#385b63", brightMagenta: "#724862", brightCyan: "#3a5e47", brightWhite: "#3c2b1f"
 )
 
 let fontName = "JetBrainsMonoNFM-Regular"   // Brewfile: font-jetbrains-mono-nerd-font
