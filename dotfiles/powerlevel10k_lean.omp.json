@@ -4,7 +4,22 @@
     {
       "segments": [
         {
-          "foreground": "#00C5C7",
+          "foreground": "#928374",
+          "foreground_templates": [
+            "{{ if le .Percentage 10 }}#ea6962{{ end }}",
+            "{{ if le .Percentage 20 }}#d8a657{{ end }}"
+          ],
+          "properties": {
+            "charged_icon": "⚡ ",
+            "charging_icon": "⚡ ",
+            "discharging_icon": "🔋 "
+          },
+          "style": "plain",
+          "template": "{{ if not .Error }} {{ .Icon }}{{ .Percentage }}%{{ end }}",
+          "type": "battery"
+        },
+        {
+          "foreground": "#928374",
           "properties": {
             "time_format": "15:04:05"
           },
@@ -19,7 +34,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#77E4F7",
+          "foreground": "#7daea3",
           "properties": {
             "style": "full"
           },
@@ -28,15 +43,15 @@
           "type": "path"
         },
         {
-          "foreground": "#FFE700",
+          "foreground": "#d8a657",
           "style": "plain",
           "template": "{{ .HEAD }} ",
           "type": "git"
         },
         {
-          "foreground": "#43D426",
+          "foreground": "#a9b665",
           "style": "plain",
-          "template": "\u276f ",
+          "template": "❯ ",
           "type": "text"
         }
       ],
