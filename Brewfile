@@ -106,7 +106,11 @@ npm "oh-my-claude-sisyphus"
 brew "go"
 # prompt renderer used by .zshrc (homebrew-core; avoids the untrusted-tap refusal)
 brew "oh-my-posh"
-# the Terminal profile font, UbuntuSansMono Nerd Font (was installed manually;
+# the Terminal profile font (see scripts/generate_terminal_profiles.swift):
+# JetBrainsMono Nerd Font Mono, 15pt - a true monospace Nerd Font variant, so
+# icon columns don't drift the way the Propo variants do
+cask "font-jetbrains-mono-nerd-font"
+# UbuntuSansMono Nerd Font, the previous profile font (was installed manually;
 # this family cask includes the Mono and Propo variants)
 cask "font-ubuntu-sans-nerd-font"
 # code-screenshot tool; `brew bundle dump` skips untrusted-tap formulae, so
