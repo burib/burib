@@ -5,21 +5,6 @@
       "segments": [
         {
           "foreground": "#5d5349",
-          "foreground_templates": [
-            "{{ if le .Percentage 10 }}#953333{{ end }}",
-            "{{ if le .Percentage 20 }}#7a4c06{{ end }}"
-          ],
-          "properties": {
-            "charged_icon": "⚡ ",
-            "charging_icon": "⚡ ",
-            "discharging_icon": "🔋 "
-          },
-          "style": "plain",
-          "template": "{{ if not .Error }} {{ .Icon }}{{ .Percentage }}%{{ end }}",
-          "type": "battery"
-        },
-        {
-          "foreground": "#5d5349",
           "properties": {
             "time_format": "15:04:05"
           },
